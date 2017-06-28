@@ -3,17 +3,23 @@ import numpy as np
 
 
 def distance_lonlat(lon1, lat1, lon2, lat2):
+    """Calculate the distance between two points
+
+    (lon1, lat1): coordinate of the first point
+    (lon2, lat2): coordinate of the second point
+    """
     radius = 6371 #3961
-    lon1 /= 180./math.pi
-    lon2 /= 180./math.pi
-    lat1 /= 180./math.pi
-    lat2 /= 180./math.pi
+    lon1 /= (180./math.pi)
+    lon2 /= (180./math.pi)
+    lat1 /= (180./math.pi)
+    lat2 /= (180./math.pi)
+
     # First calculation method
     dlon = lon2 - lon1
     dlat = lat2 - lat1
     a = (math.sin(dlat/2.))**2 + math.cos(lat1) * math.cos(lat2) * (math.sin(dlon/2.))**2
     dist = 2 * radius * math.atan2(math.sqrt(a), math.sqrt(1-a))
-    
+
     # Second calculation method
     # a1 = math.sin(lat1*math.pi/180) * math.sin(lat2*math.pi/180)
     # a2 = math.cos(lat1*math.pi/180) * math.cos(lat2*math.pi/180) * math.cos(lon1*math.pi/180) * math.cos(lon2*math.pi/180)
@@ -23,6 +29,8 @@ def distance_lonlat(lon1, lat1, lon2, lat2):
 
 
 def distances_lonlat(points):
+    """Calculate the pairwise distance between points
+    """
     N = len(points)
     distances = np.empty((N, N))
     for i in xrange(N):
@@ -32,7 +40,7 @@ def distances_lonlat(points):
             latj = points[j, 0]
             lonj = points[j, 1]
             if i==j:
-                distances[i, j] = 10000.0
+                distances[i, j] = 100000.0
             else:
                 distances[i, j] = distance_lonlat(loni, lati, lonj, latj)
     return distances
