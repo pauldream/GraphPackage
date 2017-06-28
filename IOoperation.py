@@ -1,4 +1,4 @@
-import xlrd #, xlsxwriter
+import xlrd
 
 
 # # Function for writing distance into excel file, distance is two dimensional dictionary
@@ -21,7 +21,6 @@ import xlrd #, xlsxwriter
 
 def read_link(filename, sheet, num_link):
     """reading link information into link list, each element is [ori index, des index, length]
-
     """
     book = xlrd.open_workbook(filename)
     sheet = book.sheet_by_name(sheet)
@@ -37,7 +36,6 @@ def read_link(filename, sheet, num_link):
 
 def read_node(filename, sheet, num_node):
     """reading node information into node list, each element is [node index, x-coor, y-coor]
-
     """
     book = xlrd.open_workbook(filename)
     sheet = book.sheet_by_name(sheet)
@@ -48,4 +46,3 @@ def read_node(filename, sheet, num_node):
     for i in xrange(num_node):
         node.append([str(index[i]), x_coor[i], y_coor[i]])
     return node
-
