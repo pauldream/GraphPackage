@@ -69,7 +69,6 @@ def treeortour_draw(points, links, method='cheapestInsertion'):
 
 def CheapestInsertion(points, distances):
     """Use cheapest insertion heuristic to construct TSP tour
-
     """
     N = len(points)
     curr_vertices = [0] # set C of nodes that have been selected already
@@ -101,7 +100,6 @@ def CheapestInsertion(points, distances):
 
 def MSTBased(points, distances, mst_links):
     """Use MST-based heuristic to construct TSP tour
-
     """
     N = len(points)
     links = {} # construct the multi-graph corresponding to the MST with repetitions
@@ -137,7 +135,6 @@ def MSTBased(points, distances, mst_links):
 
 def Christofide(points, distances, mst_links):
     """Use christofide's heuristic to construct TSP tour
-
     """
     # find the set N1 of all nodes that have odd degrees
     odd_degree = []
@@ -197,44 +194,3 @@ def Christofide(points, distances, mst_links):
         i = j
     tsp_links.append((euler[i], euler[i+1]))
     return tsp_links, tsp_length
-
-
-
-def main():
-    filename = "data150cities.xls"
-    print '\nReading data ...\n'
-    points = read_data(filename)
-
-    print 'Calculating distances ...\n'
-    distances = Calculation.distances_lonlat(points)
-
-    # Construct TSP tour using cheapest insertion heuristic
-    internal_time1 = time.time()
-    tsp_links, tsp_length = CheapestInsertion(points, distances)
-    internal_time2 = time.time()
-    print 'Cheapest insertion time: ', internal_time2 - internal_time1, 'seconds'
-    print 'Cheapest insertion tsp length: ', tsp_length, '\n'
-    treeortour_draw(points, tsp_links, 'cheapestInsertion')
-
-    # Construct TSP tour using MST-based heuristic
-    internal_time3 = time.time()
-    mst_links = Algorithms.prim(points, distances)
-    tsp_links, tsp_length = MSTBased(points, distances, mst_links)
-    internal_time4 = time.time()
-    print 'MST based time: ', internal_time4 - internal_time3, 'seconds'
-    print 'MST based tsp length: ', tsp_length, '\n'
-    treeortour_draw(points, tsp_links, 'MSTBased')
-
-    # Construct TSP tour using Christofide's heuristic
-    internal_time5 = time.time()
-    mst_links = Algorithms.prim(points, distances)
-    tsp_links, tsp_length = Christofide(points, distances, mst_links)
-    internal_time6 = time.time()
-    print 'Christofide time: ', internal_time6 - internal_time5, 'seconds'
-    print 'Christofide tsp length: ', tsp_length, '\n'
-    treeortour_draw(points, tsp_links, 'christofide')
-
-
-
-if __name__ == "__main__":
-    main()
