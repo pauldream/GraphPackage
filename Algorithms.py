@@ -81,22 +81,6 @@ def postorder_iterative(source):
         print vex
 
 
-# def bfs_recursive(graph, source):
-#     """Recursive version of bfs
-#     """
-#     def bfs(vex):
-#         vex.visited = True
-#         for v in vex.adjvertices:
-#             if !v.visited:
-#                 bfs(vex)
-#
-#     vertices = graph.get_vertices()
-#     for vex in vertices:
-#         vex.visited = False
-#     if
-
-
-
 def bfs_iterative(graph, source):
     """Iterative version of bfs
 
@@ -161,6 +145,16 @@ def dfs_iterative(graph, source):
             for item in vex_pop.adjvexs:
                 unvisited.append(item)
     return sequence
+
+
+def is_connected(graph):
+    """Check whether a graph is connected or not, using dfs
+    """
+    vexs = graph.get_vexs()
+    if len(vertices) == 0:
+        return False
+    seq = dfs_iterative(graph, vexs[0]) # the number of nodes it can reach
+    return len(seq)==len(vertices)
 
 
 def reverse_shortest(target, path):
@@ -244,17 +238,6 @@ def prim(points, distances):
         curr_vertices.append(tempOther)
         mst_links.append((tempCurr, tempOther))
     return mst_links
-
-
-def is_connected(graph, flag):
-    """Check whether a graph is connected or not, using dfs
-
-    """
-    vertices = graph.get_vertices()
-    if len(vertices) == 0:
-        return False
-    seq = dfs_iterative(graph, vertices[0])
-    return len(seq)==len(vertices)
 
 
 def euler_tour(graph):
