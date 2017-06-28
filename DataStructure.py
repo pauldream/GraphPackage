@@ -58,73 +58,75 @@ class BinaryTreeVertex(object):
 
 class Graph:
     def __init__(self):
-        self.num_vertices = 0
-        self.num_edges = 0
+        self.numVexs = 0
+        self.numLinks = 0
         self.vertex_dict = {}  # Key:(String/int)index of vertex; Value:(Vertex)vertex in the graph
 
     def __iter__(self):
         return iter(self.vertex_dict.values())
 
-    def get_vertex(self, vertex):  # Given vertex index, return (Vertex)vertex
-        if vertex in self.vertex_dict:
-            return self.vertex_dict[vertex]
+    def get_vertex(self, id):  # Given vertex index, return (Vertex)vertex
+        if id in self.vertex_dict:
+            return self.vertex_dict[id]
         else:
             return None
 
     def add_vertex(self, vertex):
-        self.num_vertices = self.num_vertices + 1
-        new_vertex = Vertex(vertex)
-        self.vertex_dict[vertex] = new_vertex
-        return new_vertex
+        self.numVexs = self.numVexs + 1
+        newVertex = Vertex(vertex)
+        self.vertex_dict[vertex] = newVertex
+        return newVertex
 
     def remove_vertex(self, vertex):
-        self.num_vertices = self.num_vertices - 1
+        self.numVexs = self.numVexs - 1
         del self.vertex_dict[vertex]
 
-    def add_edge(self, vertex_ori, vertex_des, length):
-        self.num_edges = self.num_edges + 1
-        if vertex_ori not in self.vertex_dict:
-            self.add_vertex(vertex_ori)
-        if vertex_des not in self.vertex_dict:
-            self.add_vertex(vertex_des)
-        self.vertex_dict[vertex_ori].add_adjacent(self.vertex_dict[vertex_des], length)
+    def add_link(self, vertexOri, vertexDes, length):
+        self.numLinks = self.numLinks + 1
+        if vertexOri not in self.vertex_dict:
+            self.add_vertex(vertexOri)
+        if vertexDes not in self.vertex_dict:
+            self.add_vertex(vertexDes)
+        self.vertex_dict[vertexOri].add_adjacent(self.vertex_dict[vertexDes], length)
 
-    def add_biedge(self, vertex_ori, vertex_des, length):
-        self.num_edges = self.num_edges + 2
-        if vertex_ori not in self.vertex_dict:
-            self.add_vertex(vertex_ori)
-        if vertex_des not in self.vertex_dict:
-            self.add_vertex(vertex_des)
-        self.vertex_dict[vertex_ori].add_adjacent(self.vertex_dict[vertex_des], length)
-        self.vertex_dict[vertex_des].add_adjacent(self.vertex_dict[vertex_ori], length)
+    def add_bilink(self, vertexOri, vertexDes, length):
+        self.numLinks = self.numLinks + 2
+        if vertexOri not in self.vertex_dict:
+            self.add_vertex(vertexOri)
+        if vertexDes not in self.vertex_dict:
+            self.add_vertex(vertexDes)
+        self.vertex_dict[vertexOri].add_adjacent(self.vertex_dict[vertexDes], length)
+        self.vertex_dict[vertexDes].add_adjacent(self.vertex_dict[vertexOri], length)
 
-    def remove_edge(self, vertex_ori, vertex_des):
-        self.num_edges = self.num_edges - 1
-        self.vertex_dict[vertex_ori].remove_adjacent(self.vertex_dict[vertex_des])
-        if len(self.vertex_dict[vertex_ori].get_adjacent()) == 0:
-            self.remove_vertex(vertex_ori)
+    def remove_link(self, vertexOri, vertexDes):
+        self.numLinks = self.numLinks - 1
+        self.vertex_dict[vertexOri].remove_adjacent(self.vertex_dict[vertexDes])
+        if len(self.vertex_dict[vertexOri].get_adjacent()) == 0: # if vertexOri becomes isolated, remove it
+            self.remove_vertex(vertexOri)
 
-    def remove_biedge(self, vertex_ori, vertex_des):
-        self.num_edges = self.num_edges - 2
-        self.vertex_dict[vertex_ori].remove_adjacent(self.vertex_dict[vertex_des])
-        self.vertex_dict[vertex_des].remove_adjacent(self.vertex_dict[vertex_ori])
-        if len(self.vertex_dict[vertex_ori].adjlinks) == 0:
-            self.remove_vertex(vertex_ori) # only remove the original node of the edge, if necessary
+    def remove_bilink(self, vertexOri, vertexDes):
+        self.numLinks = self.numLinks - 2
+        self.vertex_dict[vertexOri].remove_adjacent(self.vertex_dict[vertexDes])
+        self.vertex_dict[vertexDes].remove_adjacent(self.vertex_dict[vertexOri])
+        if len(self.vertex_dict[vertexOri].adjlinks) == 0:
+            self.remove_vertex(vertexOri) # only remove the original node of the edge, if necessary
+        if len(self.vertex_dict[vertexDes].adjlinks) == 0:
+            self.remove_vertex(vertexDes) # only remove the original node of the edge, if necessary
 
-    def get_vertices(self):
+    def get_vexs(self):
         return self.vertex_dict.values()
 
-    def set_distance_all(self, distance):
-        for v in self:
-            v.set_distance(distance)
+    def set_distance_all(self, distance=1000000.0):
+        for vex in self:
+            vex.set_distance(distance)
 
     def set_visited_all(self):
-        for v in self:
-            v.set_visited(False)
+        for vex in self:
+            vex.set_visited(False)
 
     def set_previous_all(self):
-        for v in self:
-            v.set_previous(None)
+        for vex in self:
+            vex.set_previous(None)
 
     def print_graph(self):
         print 'Graph data:'
@@ -136,4 +138,4 @@ class Graph:
                 print '(%3s   ,  %3s   ,  %1f   )' % ( vid, wid, v.get_linklength(w))
 
     def __str__(self):
-        return "Graph with " + str(self.num_vertices) + " vertices and " + str(self.num_edges) + " edges."
+        return "Graph with " + str(self.numNodes) + " nodes and " + str(self.numLinks) + " links."
