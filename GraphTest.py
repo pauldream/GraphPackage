@@ -1,4 +1,7 @@
-from graph_syx import *
+# from graph_syx import *
+
+import DataStructure
+import Algorithms
 
 
 def testTreeTraversal():
@@ -22,7 +25,6 @@ def testTreeTraversal():
     nodeB.children(nodeD, nodeE)
     nodeC.right = nodeG
     nodeE.left = nodeF
-    print root
     print 'Pre-order: '
     Algorithms.preorder_iterative(root)
     print '\nIn-order: '
@@ -49,12 +51,14 @@ def testGraphTraversal():
             (2,5),(4,9),(7,11)]
     graph = DataStructure.Graph()
     for (ori, des) in links:
-        graph.add_biedge(ori, des, 1)
-    source = graph.get_vertices()[0]
+        graph.add_bilink(ori, des, 1) # construct the graph
+    source = graph.get_vexs()[0]
     seq_bfs = Algorithms.bfs_iterative(graph, source)
     print 'BFS sequence: ', seq_bfs
-    seq_dfs = Algorithms.dfs_recursive(graph, source)
-    print 'DFS sequence: ', seq_dfs
+    seq_dfs_ite = Algorithms.dfs_iterative(graph, source)
+    print 'DFS iterative sequence: ', seq_dfs_ite
+    seq_dfs_rec = Algorithms.dfs_recursive(graph, source)
+    print 'DFS recursive sequence: ', seq_dfs_rec
     seq_euler = Algorithms.euler_tour(graph)
     print 'Euler tour: ', seq_euler
 
@@ -96,3 +100,4 @@ def testTSPHeuristic():
 
 if __name__ == "__main__":
     testTreeTraversal()
+    testGraphTraversal()
